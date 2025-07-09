@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  dnahacker:
+    image: node:18-alpine
+    container_name: dnahacker
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: npx http-server -p 8000 -a 0.0.0.0
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
