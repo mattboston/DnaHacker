@@ -17,22 +17,30 @@ function detectFileFormat(content) {
         return 'ancestry';
     }
 
-    // Look for MyHeritage format (no headers, comma-separated, 4 columns)
+    // Look for MyHeritage format (comma-separated, 4 columns, with rsid in first column)
     const firstDataLine = lines.find(line =>
         line.trim() &&
         !line.startsWith('#') &&
+        !line.startsWith('RSID') && // Skip header row
         line.includes(',') &&
         line.split(',').length === 4
     );
 
     if (firstDataLine) {
-        const columns = firstDataLine.split(',');
+        const columns = firstDataLine.split(',').map(col => col.trim().replace(/^"|"$/g, '')); // Remove quotes
         // Check if it looks like MyHeritage format (rsid, chromosome, position, genotype)
-        if (columns[0].trim().startsWith('rs') &&
-            !isNaN(columns[1].trim()) &&
-            !isNaN(columns[2].trim()) &&
-            columns[3].trim().length <= 2) {
+        if (columns[0].startsWith('rs') &&
+            !isNaN(columns[1]) &&
+            !isNaN(columns[2]) &&
+            columns[3].length <= 2) {
             return 'myheritage';
+        } else {
+            console.log('MyHeritage format check failed:', {
+                startsWithRs: columns[0].startsWith('rs'),
+                col1IsNumber: !isNaN(columns[1]),
+                col2IsNumber: !isNaN(columns[2]),
+                col3Length: columns[3].length
+            });
         }
     }
 
@@ -84,6 +92,8 @@ export async function processZipFile(fileObject) {
 
         // Detect the file format
         detectedFormat = detectFileFormat(fileContent);
+        console.log('File content preview:', fileContent.substring(0, 500));
+        console.log('Detected format:', detectedFormat);
         UIManager.updateStatus(`Detected format: ${detectedFormat} for ${fileObject.name}`);
 
         if (detectedFormat === 'unknown') {

@@ -112,17 +112,29 @@ This method requires [Docker](https://www.docker.com/) and [Docker Compose](http
    cd path/to/dnahacker
    ```
 
-3. **Start the application with Docker Compose**
+3. **Configure the port (optional)**
+
+   The application runs on port 8000 by default. If you want to use a different port:
+
+   ```bash
+   # Copy the example environment file
+   cp .env.example .env
+
+   # Edit .env and change the port
+   # APP_PORT=8001  # for example, to use port 8001
+   ```
+
+4. **Start the application with Docker Compose**
 
    ```bash
    docker compose up -d
    ```
 
-4. **Access the application**
-   - Open your browser and navigate to: [http://localhost:8000](http://localhost:8000)
+5. **Access the application**
+   - Open your browser and navigate to: [http://localhost:8000](http://localhost:8000) (or your custom port)
    - You should see the DNAHacker interface
 
-The server will continue running until you stop it (typically with Ctrl+C). Any changes you make to the files will be immediately available when you refresh the browser.
+The server will continue running until you stop it. Any changes you make to the files will be immediately available when you refresh the browser.
 
 To run in the background:
 
@@ -135,6 +147,14 @@ To stop the application:
 ```bash
 docker-compose down
 ```
+
+#### Environment Configuration
+
+The Docker Compose setup uses environment variables for configuration. A `.env.example` file is provided with default settings:
+
+- `APP_PORT`: The port for the web interface (default: 8000)
+
+To customize these settings, copy `.env.example` to `.env` and modify the values as needed.
 
 ### Option 2: Using npx http-server
 
