@@ -7,6 +7,7 @@ A JavaScript module for analyzing genetic data against known SNP (Single Nucleot
 This tool helps analyze DNA data by identifying important genetic variations (SNPs) and providing interpretations based on scientific research. It's particularly useful for understanding genetic predispositions and characteristics encoded in raw genetic data files.
 
 ## Privacy Note
+
 Even when running locally, DNAHacker processes all data entirely within your browser. Your genetic data never leaves your computer, regardless of whether you're using the GitHub Pages version or running locally.
 
 ## QuickStart
@@ -18,6 +19,7 @@ Don't want to install anything? Try DNAHacker directly in your browser:
 This version is hosted on GitHub Pages and offers the same functionality as the local version. Your data remains private and is processed entirely in your browser - nothing is uploaded to any server.
 
 Simply visit the link above to:
+
 - Upload your DNA file
 - Analyze specific genetic markers
 - Get personalized interpretations
@@ -43,7 +45,9 @@ No installation required!
 5. Results are organized with interpretations and significance levels
 
 ## Magnitude Scale
+
 The module uses SNPedia's magnitude scale for interpreting significance:
+
 - 0: Common genotype, nothing interesting known
 - 0.1-1: Low significance
 - 2-3: Moderately interesting findings
@@ -54,21 +58,24 @@ The module uses SNPedia's magnitude scale for interpreting significance:
 
 ### Currently Supported Formats
 
-**This tool currently only supports DNA kits downloaded from MyHeritage in ZIP format.**
+**This tool supports DNA kits downloaded from MyHeritage and Ancestry.com in ZIP format.**
 
-When you download your raw DNA data from MyHeritage, you receive a ZIP file containing a CSV file with your genetic data. This tool is specifically designed to process this format.
+- **MyHeritage**: ZIP file containing a CSV file with genetic data
+- **Ancestry.com**: ZIP file containing a TXT file with genetic data
+
+When you download your raw DNA data from MyHeritage or Ancestry.com, you receive a ZIP file containing a file with your genetic data. This tool is specifically designed to detect which file type and process the correct format.
 
 ### Contributing Support for Other Formats
 
 We welcome Pull Requests that add support for additional DNA testing services! Popular DNA testing platforms that could be added include:
 
 - **23andMe** (.txt format)
-- **AncestryDNA** (.txt or .zip format)
 - **FamilyTreeDNA** (.csv format)
 - **Living DNA** (.txt format)
 - **GEDmatch** (various formats)
 
 Each service provides raw data in slightly different formats. The key differences typically include:
+
 - Column order and naming
 - Header information
 - Allele representation
@@ -93,37 +100,95 @@ _Note: If you're a user of another DNA testing service and would like to see it 
 
 DNAHacker is a client-side application that processes DNA data directly in your browser. No server is required for normal operation. However, due to browser security restrictions, you'll need a local web server to run the application on your machine.
 
-### Option 1: Using npx http-server (Recommended)
+### Option 1: Using Docker Compose (Recommended)
+
+This method requires [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) to be installed on your computer.
+
+1. **Open a terminal or command prompt**
+
+2. **Navigate to the DNAHacker directory**
+
+   ```bash
+   cd path/to/dnahacker
+   ```
+
+3. **Configure the port (optional)**
+
+   The application runs on port 8000 by default. If you want to use a different port:
+
+   ```bash
+   # Copy the example environment file
+   cp .env.example .env
+
+   # Edit .env and change the port
+   # APP_PORT=8001  # for example, to use port 8001
+   ```
+
+4. **Start the application with Docker Compose**
+
+   ```bash
+   docker compose up -d
+   ```
+
+5. **Access the application**
+   - Open your browser and navigate to: [http://localhost:8000](http://localhost:8000) (or your custom port)
+   - You should see the DNAHacker interface
+
+The server will continue running until you stop it. Any changes you make to the files will be immediately available when you refresh the browser.
+
+To run in the background:
+
+```bash
+docker-compose up -d
+```
+
+To stop the application:
+
+```bash
+docker-compose down
+```
+
+#### Environment Configuration
+
+The Docker Compose setup uses environment variables for configuration. A `.env.example` file is provided with default settings:
+
+- `APP_PORT`: The port for the web interface (default: 8000)
+
+To customize these settings, copy `.env.example` to `.env` and modify the values as needed.
+
+### Option 2: Using npx http-server
 
 This method requires [Node.js](https://nodejs.org/) to be installed on your computer.
 
 1. **Open a terminal or command prompt**
 
 2. **Navigate to the DNAHacker directory**
+
    ```bash
    cd path/to/dnahacker
    ```
 
 3. **Start the server with npx**
+
    ```bash
    npx http-server
    ```
 
 4. **Access the application**
-    - Open your browser and navigate to: [http://localhost:8080](http://localhost:8080)
-    - You should see the DNAHacker interface
+   - Open your browser and navigate to: [http://localhost:8080](http://localhost:8080)
+   - You should see the DNAHacker interface
 
 The server will continue running until you stop it (typically with Ctrl+C). Any changes you make to the files will be immediately available when you refresh the browser.
 
-### Option 2: Using Python's built-in HTTP server
+### Option 3: Using Python's built-in HTTP server
 
 If you have Python installed but not Node.js:
 
 **For Python:**
+
    ```bash
    python -m SimpleHTTPServer 8080
    ```
-
 
 ## About Commercial DNA Analysis Services
 
@@ -180,5 +245,6 @@ In compliance with SNPedia's license terms:
 - Derivative works must be shared under the same license terms
 
 If you wish to use this project for commercial purposes, you would need to:
+
 1. Obtain explicit permission from SNPedia for the interpretation data
 2. Comply with the GPL-3.0 requirements for the software code

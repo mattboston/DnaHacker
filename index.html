@@ -21,8 +21,9 @@
     </section>
 
     <section>
-        <label for="dnaFileInput">Upload one or more MyHeritage ZIP files:</label>
+        <label for="dnaFileInput">Upload one or more DNA kit ZIP files (MyHeritage or Ancestry.com):</label>
         <input type="file" id="dnaFileInput" accept=".zip,application/zip" multiple>
+        <p class="format-info">Supported formats: MyHeritage (.zip with .csv) and Ancestry.com (.zip with .txt)</p>
     </section>
 
     <section id="statusArea">
@@ -36,7 +37,7 @@
         </div>
     </section>
 
-    <section id="comparisonArea" style="display: none;"> 
+    <section id="comparisonArea" style="display: none;">
         <h2>Compare Files</h2>
         <div id="fileSelectionForComparison"></div>
         <button id="compareButton">Compare Selected</button>
