@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   dnahacker:
     image: node:18-alpine
